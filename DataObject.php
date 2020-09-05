@@ -1,10 +1,12 @@
 <?php
 
+require_once("config.php");
+
 //common data class used for construct user datas and getting spesific field (username,age and etc)
-class Data
+abstract class Data
 {
     //array that contain user datas
-    private $datas=array();
+    protected $datas=array();
 
     //constructor for initializing user datas to array
     public function __construct($datas)
@@ -19,6 +21,29 @@ class Data
     public function getValue($field)
     {
         return $this->datas[$field];
+    }
+
+    protected function connectDataBase()
+    {
+        try
+        {
+            $conn=new PDO(DB_DSN,DB_USERNAME,DB_PASSWORD);
+            $conn->setAttribute(PDO::ATTR_PERSISTENT,true);
+            $conn->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+            return $conn;
+        }
+        catch(PDOException $e)
+        {
+            $conn="";
+            die("An error occured:   " . $e->getMessage());
+        }
+
+        
+    }
+
+    protected function disconnect()
+    {
+        $conn="";        //?????????????
     }
 }
 

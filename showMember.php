@@ -1,21 +1,12 @@
 <?php
 
+require_once("Members.php");
+
 if(isset($_GET["username"]))
 {
-    session_start();
-    require_once("DataObject.php");
-
-    //objects of Data class
-    $members=unserialize($_SESSION["members"]);
-
-    //used for finding wanted object
-    foreach($members as $member)
-    {
-        if($_GET["username"]==$member->getValue("username"))
-        {
-            showMemberInfo($member);
-        }
-    }
+    $member=Members::getMember($_GET["username"]);
+    
+    showMemberInfo($member);
 }
 
 ?>

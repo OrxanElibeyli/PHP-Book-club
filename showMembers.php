@@ -1,8 +1,7 @@
 <?php
 
-require_once("config.php");
-require_once("DataObject.php");
-session_start();
+require_once("Members.php");
+
 
 //starting row of datas for locating in html table
 $start=isset($_GET["start"])? $_GET["start"] : 0;
@@ -10,41 +9,10 @@ $start=isset($_GET["start"])? $_GET["start"] : 0;
 //order of rows (according username,firstName,lastName)
 $order=isset($_GET["order"])? $_GET["order"] : "username";
 
-$sql="SELECT *FROM " . DB_TABLE . " ORDER by " . $order . " LIMIT :start, :size;";
 
-try
-{
-    $conn=new PDO(DB_DSN,DB_USERNAME,DB_PASSWORD);
-    $conn->setAttribute(PDO::ATTR_PERSISTENT,true);
-    $conn->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-
-    $st=$conn->prepare($sql);
-    $st->bindValue(":start",$start,PDO::PARAM_INT);
-    $st->bindValue(":size",PAGE_SIZE,PDO::PARAM_INT);
-
-    $st->execute();
-
-    $data=$st->fetchAll();
-
-    //initializing user datas with help of Data class`s constructor
-    foreach($data as $row)
-    {
-        $members[]=new Data($row);
-    }
-
-    //used for passing objects of Data class to showMember script
-    $_SESSION["members"]=serialize($members);    
-}
-catch(PDOException $e)
-{
-    $conn="";
-    die("An error occured:   " . $e->getMessage());
-}
+$members=Members::getMembers($start,$order);
 
 ?>
-
-
-                               <!-- HTML for describing datas in web page -->
 <html>
     <head>
         <title>test</title>
