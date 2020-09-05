@@ -1,5 +1,7 @@
 <?php
 
+//this script is used for adding members to database
+
 require_once("config.php");
 
 $datas=array(
@@ -39,12 +41,5 @@ catch(PDOException $e)
     if($conn) $conn="";
     die("an error occured: " . $e->getMessage());
 }
-
-
-
-
-
-
-
 
 ?>

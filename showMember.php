@@ -1,29 +1,29 @@
 <?php
 
-//require_once("config.php");
-
-
-
-
 if(isset($_GET["username"]))
 {
     session_start();
     require_once("DataObject.php");
 
-    $member=unserialize($_SESSION["member"]);
-    //print_r($member);
+    //objects of Data class
+    $members=unserialize($_SESSION["members"]);
 
-    showMemberInfo($member);
+    //used for finding wanted object
+    foreach($members as $member)
+    {
+        if($_GET["username"]==$member->getValue("username"))
+        {
+            showMemberInfo($member);
+        }
+    }
 }
 
 ?>
-
-<table>
-    
+                             <!-- HTML for describing datas of wanted user -->
+<table>   
     <?php
       function showMemberInfo($member)
-      {
-        ?>
+      {?>
             <table>
                 <tr>
                     
@@ -42,10 +42,7 @@ if(isset($_GET["username"]))
                 <td><?php echo $member->getValue("specialty") ?></td></tr>
             </table>
             
-            <?php
-        
+        <?php      
       }
-      
     ?>
-
 </table>
