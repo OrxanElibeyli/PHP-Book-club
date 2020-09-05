@@ -5,9 +5,10 @@ require_once("DataObject.php");
 class Members extends Data
 {
     
-
+    //hold objects of itself
     private $members=array();
 
+    //return wanted members(object)
     public static function getMembers($start,$order)
     {
         global $members;
@@ -29,8 +30,6 @@ class Members extends Data
                 $members[]=new Members($row);
             }
 
-            //used for passing objects of Data class to showMember script
-            //$_SESSION["members"]=serialize($members);   
             parent::disconnect();
 
             return $members;
@@ -44,6 +43,7 @@ class Members extends Data
         
     }
 
+    //return wanted member(object)
     public static function getMember($username)
     {
         $conn=parent::connectDataBase();

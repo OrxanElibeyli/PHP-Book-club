@@ -23,6 +23,7 @@ abstract class Data
         return $this->datas[$field];
     }
 
+    //connecting to database
     protected function connectDataBase()
     {
         try
