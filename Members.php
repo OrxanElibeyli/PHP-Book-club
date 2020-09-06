@@ -9,11 +9,20 @@ class Members extends Data
     private $members=array();
 
     //return wanted members(object)
-    public static function getMembers($start,$order)
+
+    private function getDatas($order)
+    {
+
+    }
+
+    public static function getMembers($start,$order,$specialty)
     {
         global $members;
         $conn=parent::connectDataBase();
-        $sql="SELECT *FROM " . DB_TABLE . " ORDER by " . $order . " LIMIT :start, :size;";
+
+        if($specialty!="") $sql='SELECT * FROM ' . DB_TABLE . ' WHERE specialty="' . $specialty . '" ORDER by ' . $order . ' LIMIT :start, :size;';
+        else $sql='SELECT *FROM ' . DB_TABLE . ' ORDER by ' . $order . ' LIMIT :start, :size;';
+        //echo $sql;
         try
         {
             $st=$conn->prepare($sql);
