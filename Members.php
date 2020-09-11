@@ -84,12 +84,14 @@ class Members extends Data
         foreach($members as $member)
         {
             if($member->getValue("username")==$username) return $member;
+            else return null;
         }
     }
 }
 
 
 
+  
+?>   
 
-?>
-
+    
