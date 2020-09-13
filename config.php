@@ -9,5 +9,6 @@ define("DB_TABLE","info");
 //defining html page size (rows of table which user datas will be showed)
 define("PAGE_SIZE",5);
 
+define("COOKIE_NAME","user");
 
 ?>

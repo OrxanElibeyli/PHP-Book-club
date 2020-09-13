@@ -1,6 +1,16 @@
 <?php
 
 
+//session_start();
+require_once("config.php");
+
+//$cookie_name="user";
+if(!isset($cookie_value))$cookie_value="";
+
+if(isset($_COOKIE[COOKIE_NAME]) && !empty(isset($_COOKIE[COOKIE_NAME])))
+{
+    header("Location: memberArea.php");
+}
 
 $missingFields=array();
 $datas=array();
@@ -38,18 +48,27 @@ require_once("Members.php");
 //write a function
 if(count($missingFields)==0 && isset($_POST["submit"]))
 {
-   // echo "test";
+    //echo $datas["username"];
     $member=Members::getMember($datas["username"]);
+
+    
 
    // echo "username " . $member->getValue("password");
    // echo "password " . $member->getValue("password");
 
     if($member!=null && $member->getValue("password")==$datas["password"]) 
     {
-        header("Location: memberArea.php");
+        //$_SESSION["user"]=Members::getMember($datas["username"]);
+        $cookie_value=$datas["username"];
+        setcookie(COOKIE_NAME,$cookie_value,time()+(60*60*24*30),"/");
+        //header("Location: memberArea.php");
+        header("Location: loginPage.php");
+        //echo "login is successfull";
     }
-    else echo "username or password is incorrect";
-}showForm($datas);
+    else echo '<p class="error">' . 'username or password is incorrect' . '</p>';
+}
+
+showForm($datas);
 
 
 

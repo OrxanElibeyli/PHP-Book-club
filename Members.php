@@ -57,7 +57,8 @@ class Members extends Data
     {
         $conn=parent::connectDataBase();
 
-        $sql="SELECT *FROM " . DB_TABLE . ";";
+        $sql='SELECT *FROM ' . DB_TABLE . ' WHERE username="' . $username . '";';
+        //echo $sql;
 
         try
         {
