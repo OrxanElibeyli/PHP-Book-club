@@ -1,11 +1,14 @@
 <?php
 
 require_once("Members.php");
+require_once("config.php");
 
 if(isset($_GET["username"]))
 {
     $member=Members::getMember($_GET["username"]);
-    
+
+    $IPv4=$_SESSION["IPv4"];
+    $member->addLog(SHOW_MEMBER_PAGE_ID,$IPv4);
     showMemberInfo($member);
 }
 

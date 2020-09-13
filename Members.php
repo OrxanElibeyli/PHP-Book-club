@@ -55,6 +55,7 @@ class Members extends Data
     //return wanted member(object)
     public static function getMember($username)
     {
+        //echo "called";
         $conn=parent::connectDataBase();
 
         $sql='SELECT *FROM ' . DB_TABLE . ' WHERE username="' . $username . '";';
@@ -88,11 +89,26 @@ class Members extends Data
             else return null;
         }
     }
+
+    public function addLog($pageID,$IPv4)
+    {
+        $conn=parent::connectDataBase();
+
+        $sql='INSERT INTO ' . DB_LOG_TABLE . '(pageID,username,IPv4) VALUES(:pageID,:username,:IPv4)';
+
+        try
+        {
+            $st=$conn->prepare($sql);
+            $st->bindValue(":pageID",$pageID,PDO::PARAM_INT);
+            $st->bindValue(":username",$this->getValue("username"),PDO::PARAM_STR);
+            $st->bindValue(":IPv4",$IPv4,PDO::PARAM_STR);
+
+            $st->execute();
+        }
+        catch(PDOException $e)
+        {
+            $conn="";
+            die("An error occured:  " . $e->getMessage());
+        }
+    }
 }
-
-
-
-  
-?>   
-
-    
